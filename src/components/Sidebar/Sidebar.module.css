@@ -1,0 +1,14 @@
+.sidebar {
+    grid-area: n;
+    background-color: rgb(40, 111, 243);
+    padding: 20px;
+}
+
+.item a {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.item .active {
+    color: gold
+}

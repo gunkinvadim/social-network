@@ -1,0 +1,19 @@
+.pagesList button {
+    margin-left: 10px;
+    border: 2px solid gray;
+    border-radius: 5px;
+    background-color: transparent;
+    padding: 5px;
+    font-size: 20px;
+    color: #000000;
+    cursor: pointer
+}
+
+.pagesList button.selected {
+    font-weight: 900
+}
+
+.preloader {
+    margin-left: auto;
+    margin-right: auto
+}

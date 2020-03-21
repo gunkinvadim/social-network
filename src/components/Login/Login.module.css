@@ -1,0 +1,20 @@
+.loginForm {
+    display: flex;
+    flex-direction: column;
+    width: 200px
+}
+
+.loginForm input {
+    margin-top: 5px;
+    margin-bottom: 5px
+}
+
+.checkBox {
+    display: flex
+}
+
+.errorMessage {
+    margin: 0;
+    margin-bottom: 5px;
+    color: rgb(209, 53, 53)
+}
