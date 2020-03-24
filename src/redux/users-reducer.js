@@ -1,5 +1,12 @@
 import { usersAPI } from '../api/api'
 
+const FOLLOW_SUCCESS = 'users/FOLLOW_SUCCESS'
+const TOGGLE_FOLLOW_DISABLED = 'users/TOGGLE_FOLLOW_DISABLED'
+const SET_USERS = 'users/SET_USERS'
+const SET_CURRENT_PAGE = 'users/SET_CURRENT_PAGE'
+const TOGGLE_USERS_LOADING = 'users/TOGGLE_USERS_LOADING'
+
+
 const initialState = {
     users: null,
     pageSize: 5,
@@ -10,29 +17,18 @@ const initialState = {
 
 const usersReducer = (state=initialState, action) => {
     switch (action.type) {
-        case 'FOLLOW_SUCCESS':
+        case FOLLOW_SUCCESS:
             return {
                 ...state,
                 users: state.users.map((item) => {
                     if (item.id === action.id) {
-                        return { ...item, followed: true }
+                        return { ...item, followed: action.followed }
                     } else {
                         return item
                     }
                 })
             }
-        case 'UNFOLLOW_SUCCESS':
-            return {
-                ...state,
-                users: state.users.map((item) => {
-                    if (item.id === action.id) {
-                        return { ...item, followed: false }
-                    } else {
-                        return item
-                    }
-                })
-            }
-        case 'TOGGLE_FOLLOW_DISABLED':
+        case TOGGLE_FOLLOW_DISABLED:
             return {
                 ...state,
                 users: state.users.map((item) => {
@@ -43,18 +39,18 @@ const usersReducer = (state=initialState, action) => {
                     }
                 })
             }
-        case 'SET_USERS':
+        case SET_USERS:
             return {
                 ...state,
                 users: [...action.users],
                 totalUsersCount: action.totalUsersCount
             }
-        case 'SET_CURRENT_PAGE':
+        case SET_CURRENT_PAGE:
             return {
                 ...state,
                 currentPage: action.currentPage
             }
-        case 'TOGGLE_USERS_LOADING':
+        case TOGGLE_USERS_LOADING:
             return {
                 ...state,
                 isLoading: action.isLoading
@@ -68,41 +64,29 @@ export default usersReducer
 
 // ActionCreators
 
-export const followSuccess = (id) => ({ type: 'FOLLOW_SUCCESS', id })
-export const unfollowSuccess = (id) => ({ type: 'UNFOLLOW_SUCCESS', id })
-export const toggleFollowDisabled = (id, isFollowDisabled) => ({ type: 'TOGGLE_FOLLOW_DISABLED', id, isFollowDisabled })
-export const setUsers = (users, totalUsersCount) => ({ type: 'SET_USERS', users, totalUsersCount })
-export const setCurrentPage = (currentPage) => ({ type: 'SET_CURRENT_PAGE', currentPage })
-export const toggleLoading = (isLoading) => ({ type: 'TOGGLE_USERS_LOADING', isLoading })
+export const followSuccess = (id, followed) => ({ type: FOLLOW_SUCCESS, id, followed })
+export const toggleFollowDisabled = (id, isFollowDisabled) => ({ type: TOGGLE_FOLLOW_DISABLED, id, isFollowDisabled })
+export const setUsers = (users, totalUsersCount) => ({ type: SET_USERS, users, totalUsersCount })
+export const setCurrentPage = (currentPage) => ({ type: SET_CURRENT_PAGE, currentPage })
+export const toggleLoading = (isLoading) => ({ type: TOGGLE_USERS_LOADING, isLoading })
 
 // ThunkCreators
 
-export const requestUsers = (pageNumber, pageSize) => (dispatch) => {
+export const requestUsers = (pageNumber, pageSize) => async (dispatch) => {
     dispatch(toggleLoading(true))
     
-    usersAPI.getUsers(pageNumber, pageSize)
-        .then(({ items, totalCount }) => {
-            dispatch(setUsers(items, totalCount))
-            dispatch(toggleLoading(false))
-        })
+    const { items, totalCount } = await usersAPI.getUsers(pageNumber, pageSize)
+    dispatch(setUsers(items, totalCount))
+    dispatch(toggleLoading(false))
 }
 
-export const requireFollow = (id) => (dispatch) => {
+export const requireFollow = (id, willFollow) => async (dispatch) => {
     dispatch(toggleFollowDisabled(id, true))
 
-    usersAPI.followUser(id)
-        .then(({ resultCode }) => {
-            if (resultCode === 0) dispatch(followSuccess(id))
-            dispatch(toggleFollowDisabled(id, false))
-        })
-}
-
-export const requireUnfollow = (id) => (dispatch) => {
-    dispatch(toggleFollowDisabled(id, true))
-
-    usersAPI.unfollowUser(id)
-        .then(({ resultCode }) => {
-            if (resultCode === 0) dispatch(unfollowSuccess(id))
-            dispatch(toggleFollowDisabled(id, false))
-        })
+    const { resultCode }
+        = await (willFollow
+            ? usersAPI.followUser(id)
+            : usersAPI.unfollowUser(id))
+    if (resultCode === 0) dispatch(followSuccess(id, willFollow))
+    dispatch(toggleFollowDisabled(id, false))
 }

@@ -1,3 +1,6 @@
+const SEND_MESSAGE = 'messages/SEND_MESSAGE'
+
+
 const initialState = {
     dialogsData: [
         { id: 1, name: 'Dimych' },
@@ -16,7 +19,7 @@ const initialState = {
 const messagesReducer = (state = initialState, action) => {
 
     switch (action.type) {
-        case 'SEND_MESSAGE':
+        case SEND_MESSAGE:
             let data = state.messagesData
             return  {
                 ...state,
@@ -33,7 +36,7 @@ const messagesReducer = (state = initialState, action) => {
 
 
 export const sendMessage = (text) => ({
-    type: 'SEND_MESSAGE',
+    type: SEND_MESSAGE,
     text
 })
 

@@ -8,7 +8,6 @@ class LoginContainer extends React.Component {
 
     onFormSubmit = (formData) => {
         const { sendLoginData } = this.props
-        console.log(formData)
         sendLoginData(formData)
     }
 

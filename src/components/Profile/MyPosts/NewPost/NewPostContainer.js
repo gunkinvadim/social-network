@@ -8,7 +8,6 @@ import NewPost from './NewPost'
 const NewPostContainer = ({ addPost }) => {
 
     const onFormSubmit = ({ text }) => {
-        console.log(text)
         addPost(text)
     }
 

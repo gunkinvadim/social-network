@@ -1,20 +1,14 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { requireFollow, requireUnfollow } from '../../../redux/users-reducer'
+import { requireFollow } from '../../../redux/users-reducer'
 import User from './User'
 
 class UserContainer extends React.Component {
     
-    onFollow = () => {
+    onFollow = (willFollow) => {
         const { userData: { id }, requireFollow } = this.props
 
-        requireFollow(id)
-    }
-
-    onUnfollow = () => {
-        const { userData: { id }, requireUnfollow } = this.props
-
-        requireUnfollow(id)
+        requireFollow(id, willFollow)
     }
 
 
@@ -25,7 +19,6 @@ class UserContainer extends React.Component {
         return <User
             userData={userData}
             onFollow={this.onFollow}
-            onUnfollow={this.onUnfollow}
         />
     }
 }
@@ -33,8 +26,7 @@ class UserContainer extends React.Component {
 
 
 const mapDispatchToProps = {
-    requireFollow,
-    requireUnfollow
+    requireFollow
 }
 
 export default connect(null, mapDispatchToProps)(UserContainer)

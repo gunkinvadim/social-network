@@ -7,15 +7,11 @@ const Status = ({
     toggleEditMode, changeStatusText, onUpdateStatus
 }) => {
 
+
+
     if (!isMyProfile) {
         return (
-            <div>{status}</div>
-        )
-    }
-
-    if (isStatusLoading) {
-        return (
-            <div>loading...</div>
+            <div>{isStatusLoading ? 'loading...' : status}</div>
         )
     }
 
@@ -26,7 +22,8 @@ const Status = ({
                         onClick={() => toggleEditMode(true)}
                         className={statusText ? null : emptyStatus}
                     >
-                        {statusText ? statusText : 'no status'}
+                        {isStatusLoading ? 'loading...'
+                            : statusText ? statusText : 'no status'}
                     </span>
                 :   
                     <form

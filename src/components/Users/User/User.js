@@ -22,7 +22,7 @@ const User = ({ userData: {name, id, photos, status, followed, isFollowDisabled 
         btn = (
             <button
                 className={unfollowBtn}
-                onClick={onUnfollow}
+                onClick={() => onFollow(false)}
             >
                 Unfollow
             </button>
@@ -31,7 +31,7 @@ const User = ({ userData: {name, id, photos, status, followed, isFollowDisabled 
         btn = (
             <button
                 className={followBtn}
-                onClick={onFollow}
+                onClick={() => onFollow(true)}
             >
                 Follow
             </button>
