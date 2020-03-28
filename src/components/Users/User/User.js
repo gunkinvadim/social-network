@@ -1,18 +1,18 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-import { userItem, userImg, unfollowBtn, followBtn, loadingBtn, userText,
-    col1, userName, userStatus,
-    col2, userLocation } from './User.module.css'
+import s from './User.module.css'
 import defaultAvatar from '../../../assets/images/default_avatar.png'
 
 
-const User = ({ userData: {name, id, photos, status, followed, isFollowDisabled }, onFollow, onUnfollow }) => {
+const User = ({ isAuth,
+    userData: {name, id, photos, status, followed, isFollowDisabled },
+    onFollow }) => {
 
     let btn
     if (isFollowDisabled) {
         btn = (
             <button
-                className={loadingBtn}
+                className={s.loadingBtn}
                 disabled
             >
                 Loading...
@@ -21,7 +21,7 @@ const User = ({ userData: {name, id, photos, status, followed, isFollowDisabled 
     } else if (followed) {
         btn = (
             <button
-                className={unfollowBtn}
+                className={s.unfollowBtn}
                 onClick={() => onFollow(false)}
             >
                 Unfollow
@@ -30,7 +30,7 @@ const User = ({ userData: {name, id, photos, status, followed, isFollowDisabled 
     } else {
         btn = (
             <button
-                className={followBtn}
+                className={s.followBtn}
                 onClick={() => onFollow(true)}
             >
                 Follow
@@ -39,26 +39,26 @@ const User = ({ userData: {name, id, photos, status, followed, isFollowDisabled 
     }
 
     return (
-        <li className={userItem}>
-            <div className={userImg}>
+        <li className={s.userItem}>
+            <div className={s.userImg}>
                 <NavLink to={`/profile/${id}`} >
                     <img
                         src={photos.small !== null ? photos.small : defaultAvatar}
                         alt={name}
                     />
                 </NavLink>
-                {btn}
+                {isAuth && btn}
             </div>
-            <div className={userText}>
-                <div className={col1}>
+            <div className={s.userText}>
+                <div className={s.col1}>
                     <NavLink
-                        className={userName}
+                        className={s.userName}
                         to={`/profile/${id}`}
                     >{name}</NavLink>
-                    <div className={userStatus}>{status}</div>
+                    <div className={s.userStatus}>{status}</div>
                 </div>
-                <div className={col2}>
-                    <div className={userLocation}></div>
+                <div className={s.col2}>
+                    <div className={s.userLocation}></div>
                 </div>
             </div>
         </li>

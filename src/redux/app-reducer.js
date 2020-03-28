@@ -1,4 +1,4 @@
-import { getAuthData } from "./auth-reducer"
+import { requestAuthData } from "./auth-reducer"
 
 const INIT_APP_SUCCESS = 'app/INIT_APP_SUCCESS'
 
@@ -6,7 +6,7 @@ const initialState = {
     isInit: false
 }
 
-const appReducer = (state=initialState, action) => {
+const appReducer = (state = initialState, action) => {
     switch (action.type) {
         case INIT_APP_SUCCESS:
             return {
@@ -21,7 +21,7 @@ const appReducer = (state=initialState, action) => {
 export const initAppSuccess = () => ({ type: INIT_APP_SUCCESS })
 
 export const initApp = () => async (dispatch) => {
-    await dispatch(getAuthData())
+    await dispatch(requestAuthData())
     dispatch(initAppSuccess())
 }
 

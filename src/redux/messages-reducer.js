@@ -11,7 +11,7 @@ const initialState = {
     messagesData: [
         { id: 1, text: 'Hi!' },
         { id: 2, text: 'How are you?' },
-        { id: 3, text: 'Love You!' }
+        { id: 3, text: '111' }
     ]
 }
 

@@ -1,30 +1,30 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-import { sidebar, item, active } from './Sidebar.module.css'
+import s from './Sidebar.module.css'
 import FriendsContainer from './Friends/FriendsContainer'
 
-const Sidebar = () => {
+const Sidebar = ({ isMyProfile }) => {
     return (
-        <section className={sidebar}>
+        <section className={s.sidebar}>
             <nav>
                 <ul>
-                    <li className={item}>
-                        <NavLink to='/profile' activeClassName={active}>Profile</NavLink>
+                    <li className={s.item}>
+                        <NavLink to='/profile' activeClassName={isMyProfile && s.active}>Profile</NavLink>
                     </li>
-                    <li className={item}>
-                        <NavLink to='/messages' activeClassName={active}>Messages</NavLink>
+                    <li className={s.item}>
+                        <NavLink to='/messages' activeClassName={s.active}>Messages</NavLink>
                     </li>
-                    <li className={item}>
-                        <NavLink to='/news' activeClassName={active}>News</NavLink>
+                    <li className={s.item}>
+                        <NavLink to='/news' activeClassName={s.active}>News</NavLink>
                     </li>
-                    <li className={item}>
-                        <NavLink to='/music' activeClassName={active}>Music</NavLink>
+                    <li className={s.item}>
+                        <NavLink to='/music' activeClassName={s.active}>Music</NavLink>
                     </li>
-                    <li className={item}>
-                        <NavLink to='/users' activeClassName={active}>Users</NavLink>
+                    <li className={s.item}>
+                        <NavLink to='/users' activeClassName={s.active}>Users</NavLink>
                     </li>
-                    <li className={item}>
-                        <NavLink to='/settings' activeClassName={active}>Settings</NavLink>
+                    <li className={s.item}>
+                        <NavLink to='/settings' activeClassName={s.active}>Settings</NavLink>
                     </li>
                 </ul>
             </nav>

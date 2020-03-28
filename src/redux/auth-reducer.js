@@ -1,7 +1,8 @@
 import { authAPI } from '../api/api'
-import { stopSubmit } from 'redux-form'
+import { stopSubmit, reset } from 'redux-form'
 
 const SET_AUTH_DATA = 'auth/SET_AUTH_DATA'
+const SET_CAPTCHA = 'auth/SET_CAPTCHA'
 const CLEAR_AUTH_DATA = 'auth/CLEAR_AUTH_DATA'
 const TOGGLE_AUTH_LOADING = 'auth/TOGGLE_AUTH_LOADING'
 
@@ -12,17 +13,24 @@ const initialState = {
         login: null,
         email: null
     },
+    captcha: null,
     isAuth: false,
     isLoading: false
 }
 
-const authReducer = (state=initialState, action) => {
+const authReducer = (state = initialState, action) => {
     switch (action.type) {
         case SET_AUTH_DATA:
             return {
                 ...state,
                 authData: {...action.authData},
-                isAuth: true
+                isAuth: true,
+                captcha: null
+            }
+        case SET_CAPTCHA:
+            return {
+                ...state,
+                captcha: action.captcha
             }
         case CLEAR_AUTH_DATA:
             return {
@@ -49,11 +57,12 @@ const authReducer = (state=initialState, action) => {
 export const setAuthData = (authData) => ({ type: SET_AUTH_DATA, authData })
 export const clearAuthData = () => ({ type: CLEAR_AUTH_DATA })
 export const toggleAuthLoading = (isLoading) => ({ type: TOGGLE_AUTH_LOADING, isLoading })
+export const setCaptcha = (captcha) => ({ type: SET_CAPTCHA, captcha })
 
 
 // ThunkCreators
 
-export const getAuthData = () => async (dispatch) => {
+export const requestAuthData = () => async (dispatch) => {
     dispatch(toggleAuthLoading(true))
 
     const { resultCode, data } = await authAPI.getAuthData()
@@ -63,12 +72,16 @@ export const getAuthData = () => async (dispatch) => {
 }
 
 export const sendLoginData = (loginData) => async (dispatch) => {
-    const { resultCode, messages } = await authAPI.login(loginData)
+    const data = await authAPI.login(loginData)
 
-    if (resultCode === 0) {
-        dispatch(getAuthData())
+    if (data.resultCode === 0) {
+        dispatch(requestAuthData())
+    } else if (data.resultCode === 10) {
+        const captcha = await authAPI.getCaptcha()
+        await dispatch(stopSubmit('login', {_error: data.messages}))
+        dispatch(setCaptcha(captcha.url))
     } else {
-        dispatch(stopSubmit('login', {_error: messages}))
+        dispatch(stopSubmit('login', {_error: data.messages}))
     }
 }
 

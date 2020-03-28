@@ -1,31 +1,47 @@
 import React from 'react'
 import { withRouter, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { requestProfile } from '../../redux/profile-reducer'
+import { requestProfile, toggleEditMode } from '../../redux/profile-reducer'
 import Profile from './Profile'
 import Preloader from '../common/Preloader/Preloader'
 import { compose } from 'redux'
-import { getIsProfileLoading, getProfileData,
-    getIsAuth, getAuthData } from '../../redux/selectors'
+import { getIsProfileLoading,
+    getIsAuth, getAuthData, getIsMyProfile,
+    getProfileEditMode } from '../../redux/selectors'
 
 class ProfileContainer extends React.Component {
 
-    componentDidMount() {
+    updateProfilePage() {
         const { match, authId, requestProfile } = this.props
         const userId = match.params.userId
 
-        userId ? requestProfile(userId, false) : requestProfile(authId, true)
+        userId && userId != authId ? requestProfile(userId, false) : requestProfile(authId, true)
+    }
+
+    componentDidMount() {
+        this.updateProfilePage()
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.match.params.userId !== prevProps.match.params.userId) {
+            this.updateProfilePage()
+        }
+    }
+
+    componentWillUnmount() {
+        this.props.toggleEditMode(false)
     }
 
     render() {
-        const { isAuth, match, isLoading, profileData } = this.props
+        const { isAuth, match, isLoading, isMyProfile, editMode } = this.props
 
         if (!match.params.userId && !isAuth) {
             return <Redirect to='/login' />
         }
 
         return isLoading ? <Preloader /> : <Profile
-            profileData={profileData}
+            isMyProfile={isMyProfile}
+            editMode={editMode}
         />
     }
 }
@@ -34,14 +50,16 @@ class ProfileContainer extends React.Component {
 const mapStateToProps = (state) => {
     return {
         isLoading: getIsProfileLoading(state),
-        profileData: getProfileData(state),
         isAuth: getIsAuth(state),
-        authId: getAuthData(state).id
+        isMyProfile: getIsMyProfile(state),
+        authId: getAuthData(state).id,
+        editMode: getProfileEditMode(state)
     }
 }
 
 const mapDispatchToProps = {
-    requestProfile
+    requestProfile,
+    toggleEditMode
 }
 
 export default compose(

@@ -1,9 +1,13 @@
 import React from 'react'
-import './ProfileInfo.module.css'
+import s from './ProfileInfo.module.css'
 import Preloader from '../../common/Preloader/Preloader'
 import StatusContainerWithHooks from './Status/StatusContainerWithHooks'
+import ProfilePhotoContainer from './ProfilePhoto/ProfilePhotoContainer'
+import ProfileHeaderContainer from './ProfileHeader/ProfileHeaderContainer'
+import ProfileDataContainer from './ProfileData/ProfileDataContainer'
+import EditProfileInfoContainer from './EditProfileInfo/EditProfileInfoContainer'
 
-const ProfileInfo = ({ profileData }) => {
+const ProfileInfo = ({ editMode, profileData }) => {
 
     if (!profileData) {
         return (
@@ -11,13 +15,15 @@ const ProfileInfo = ({ profileData }) => {
         )
     }
 
-    const { fullName, aboutMe } = profileData
-
     return (
-        <div>
-            <h1>{fullName}</h1>
-            <p>{aboutMe}</p>
-            <StatusContainerWithHooks />
+        <div className={s.profileInfo}>
+            {!editMode && <ProfileHeaderContainer />}
+            {!editMode && <StatusContainerWithHooks />}
+            <ProfilePhotoContainer />
+            <hr className={s.line}/>
+            {editMode
+                ? <EditProfileInfoContainer />
+                : <ProfileDataContainer />}
         </div>
     )
 }

@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { compose } from 'redux'
 import './App.css'
 import HeaderContainer from './components/Header/HeaderContainer'
-import Sidebar from './components/Sidebar/Sidebar'
+import SidebarContainer from './components/Sidebar/SidebarContainer'
 import { initApp } from './redux/app-reducer'
 import Preloader from './components/common/Preloader/Preloader'
 import { getIsAppInit, getIsAuth } from './redux/selectors'
@@ -41,7 +41,7 @@ class App extends React.Component {
     return (
       <div className='app-wrapper'>
         <HeaderContainer />
-        <Sidebar />
+        <SidebarContainer />
         <div className='app-wrapper-content'>
           <Switch>
             <Route

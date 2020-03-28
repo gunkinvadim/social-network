@@ -1,17 +1,18 @@
 import React from 'react'
-import { myPosts } from './MyPosts.module.css'
+import s from './Posts.module.css'
 import NewPostContainer from './NewPost/NewPostContainer'
 import PostContainer from './Post/PostContainer'
 
-const MyPosts = ({ postsData }) => {
+const MyPosts = ({ postsData, profileImg }) => {
 
     return (
-        <div className={myPosts}>
+        <div className={s.posts}>
             <h3>My Posts</h3>
             <NewPostContainer />
             {postsData.map((postData) => <PostContainer
                 key={postData.id}
-                postData={postData}/>)}
+                postData={postData}
+                profileImg={profileImg}/>)}
         </div>
     )
 }

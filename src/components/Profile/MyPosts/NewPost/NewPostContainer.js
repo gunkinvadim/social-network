@@ -1,14 +1,15 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { reduxForm } from 'redux-form'
+import { reduxForm, reset } from 'redux-form'
 import { addPost } from '../../../../redux/profile-reducer'
 import NewPost from './NewPost'
 
 
-const NewPostContainer = ({ addPost }) => {
+const NewPostContainer = ({ addPost, reset }) => {
 
     const onFormSubmit = ({ text }) => {
         addPost(text)
+        reset('newPost')
     }
 
     const NewPostReduxForm = reduxForm({
@@ -21,6 +22,6 @@ const NewPostContainer = ({ addPost }) => {
 
 
 
-const mapDispatchToProps = { addPost }
+const mapDispatchToProps = { addPost, reset }
 
 export default connect(null, mapDispatchToProps)(NewPostContainer)

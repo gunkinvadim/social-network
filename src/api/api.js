@@ -40,6 +40,25 @@ export const profileAPI = {
     updateStatus(status) {
         return instance.put(`profile/status`, { status })
             .then(res => res.data)
+    },
+
+    updatePhoto(file) {
+        const formData = new FormData()
+        formData.append('image', file, file.name)
+
+        return instance.put(`profile/photo`, formData, {
+            headers: {
+                'Content-type': 'multipart/form-data'
+            }
+        })
+            .then(res => res.data)
+    },
+
+    updateProfileData(newData) {
+
+        
+        return instance.put(`profile`, newData)
+            .then(res => res.data)
     }
 }
 
@@ -48,10 +67,12 @@ export const authAPI = {
         return instance.get(`auth/me`)
             .then(res => res.data)
     },
-    login({ email, password, rememberMe }) {
-        return instance.post(`auth/login`, {
-            email, password, rememberMe
-        })
+    login(loginData) {
+        return instance.post(`auth/login`, loginData)
+            .then(res => res.data)
+    },
+    getCaptcha() {
+        return instance.get(`security/get-captcha-url`)
             .then(res => res.data)
     },
     logout() {

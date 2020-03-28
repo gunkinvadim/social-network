@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { requireFollow } from '../../../redux/users-reducer'
 import User from './User'
+import { getIsAuth } from '../../../redux/selectors'
 
 class UserContainer extends React.Component {
     
@@ -14,19 +15,22 @@ class UserContainer extends React.Component {
 
     render() {
 
-        const { userData } = this.props
+        const { isAuth, userData } = this.props
 
         return <User
+            isAuth={isAuth}
             userData={userData}
             onFollow={this.onFollow}
         />
     }
 }
 
-
+const mapStateToProps = (state) => ({
+    isAuth: getIsAuth(state)
+})
 
 const mapDispatchToProps = {
     requireFollow
 }
 
-export default connect(null, mapDispatchToProps)(UserContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(UserContainer)

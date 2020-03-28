@@ -4,7 +4,7 @@ import { likePost } from '../../../../redux/profile-reducer'
 import { connect } from 'react-redux'
 
 
-const PostContainer = ({ postData, likePost }) => {
+const PostContainer = ({ postData, likePost, profileImg }) => {
 
     const onLikePost = () => {
         likePost(postData.id)
@@ -14,6 +14,7 @@ const PostContainer = ({ postData, likePost }) => {
     return <Post
         postData={postData}
         onLikePost={onLikePost}
+        profileImg={profileImg}
     />
 }
 

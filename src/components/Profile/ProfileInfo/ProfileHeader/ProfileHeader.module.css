@@ -1,0 +1,18 @@
+.profileHeader h2 {
+    display: inline
+}
+
+.profileHeader {
+    margin-top: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center
+}
+
+.editProfileBtn {
+    height: 30px;
+    margin-left: 50px;
+    background-color: green;
+    font-weight: 700;
+    color: #ffffff
+}

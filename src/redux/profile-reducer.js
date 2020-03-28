@@ -1,4 +1,6 @@
 import { profileAPI } from '../api/api'
+import { stopSubmit } from 'redux-form'
+import { getAuthData } from './selectors'
 
 const ADD_POST = 'profile/ADD_POST'
 const DELETE_POST = 'profile/DELETE_POST'
@@ -8,6 +10,9 @@ const SET_STATUS = 'profile/SET_STATUS'
 const TOGGLE_STATUS_LOADING = 'profile/TOGGLE_STATUS_LOADING'
 const TOGGLE_IS_MY_PROFILE = 'profile/TOGGLE_IS_MY_PROFILE'
 const TOGGLE_PROFILE_LOADING = 'profile/TOGGLE_PROFILE_LOADING'
+const TOGGLE_EDIT_MODE = 'profile/TOGGLE_EDIT_MODE'
+const TOGGLE_IS_PHOTO_UPDATING = 'profile/TOGGLE_IS_PHOTO_UPDATING'
+const UPDATE_PHOTO_SUCCESS = 'profile/UPDATE_PHOTO_SUCCESS'
 
 
 const initialState = {
@@ -16,10 +21,12 @@ const initialState = {
     isStatusLoading: false,
     status: '',
     isMyProfile: false,
+    editMode: false,
+    isPhotoUpdating: false,
     postsData: [
         { id: 1, text: `Hi, how are you?`, likes: 0, liked: false },
         { id: 2, text: `It's my first post!`, likes: 0, liked: false },
-        { id: 3, text: `Fuck You!`, likes: 0, liked: false }
+        { id: 3, text: `111`, likes: 0, liked: false }
     ]
 }
 
@@ -84,6 +91,24 @@ const profileReducer = (state = initialState, action) => {
                 ...state,
                 isLoading: action.isLoading
             }
+        case TOGGLE_EDIT_MODE:
+            return {
+                ...state,
+                editMode: action.editMode
+            }
+        case TOGGLE_IS_PHOTO_UPDATING:
+            return {
+                ...state,
+                isPhotoUpdating: action.isPhotoUpdating
+            }
+        case UPDATE_PHOTO_SUCCESS:
+            return {
+                ...state,
+                profileData: {
+                    ...state.profileData,
+                    photos: {...action.photos}
+                }
+            }
         default:
             return state
     }
@@ -122,22 +147,28 @@ export const toggleIsMyProfile = (isMyProfile) => ({
     isMyProfile
 })
 export const toggleLoading = (isLoading) => ({ type: TOGGLE_PROFILE_LOADING, isLoading })
+export const toggleEditMode = (editMode) => ({ type: TOGGLE_EDIT_MODE, editMode })
+export const toggleIsPhotoUpdating = (isPhotoUpdating) => ({
+    type: TOGGLE_IS_PHOTO_UPDATING,
+    isPhotoUpdating
+})
+export const updatePhotoSuccess = (photos) => ({
+    type: UPDATE_PHOTO_SUCCESS,
+    photos
+})
 
 
 // ThunkCreators
 
 export const requestProfile = (id, isMyProfile) => async (dispatch) => {
     dispatch(toggleLoading(true))
-    dispatch(toggleStatusLoading(true))
+    dispatch(toggleIsMyProfile(isMyProfile))
 
     const data = await profileAPI.getProfile(id)
-    dispatch(setProfile(data))
-    dispatch(toggleIsMyProfile(isMyProfile))
-    dispatch(toggleLoading(false))
-
     const statusData = await profileAPI.getStatus(id)
+    dispatch(setProfile(data))
     dispatch(setStatus(statusData))
-    dispatch(toggleStatusLoading(false))
+    dispatch(toggleLoading(false))
 }
 
 export const updateStatus = (status) => async (dispatch) => {
@@ -148,5 +179,26 @@ export const updateStatus = (status) => async (dispatch) => {
     dispatch(toggleStatusLoading(false))
 }
 
+export const updateProfilePhoto = (file) => async (dispatch) => {
+    dispatch(toggleIsPhotoUpdating(true))
+
+    const { resultCode, data: {photos} } = await profileAPI.updatePhoto(file)
+
+    if (resultCode === 0) {
+        dispatch(updatePhotoSuccess(photos))
+        dispatch(toggleIsPhotoUpdating(false))
+    }
+}
+
+export const updateProfileData = (newProfileData) => async (dispatch, getState) => {
+
+    const { resultCode, messages } = await profileAPI.updateProfileData(newProfileData)
+    if (resultCode === 0) {
+        dispatch(requestProfile(getAuthData(getState()).id, true))
+        dispatch(toggleEditMode(false))
+    } else {
+        dispatch(stopSubmit('editProfile', {_error: messages}))
+    }
+}
 
 export default profileReducer

@@ -1,20 +1,41 @@
 .loginForm {
     display: flex;
     flex-direction: column;
-    width: 200px
+    width: 220px
 }
 
 .loginForm input {
+    width: 100%;
     margin-top: 5px;
-    margin-bottom: 5px
+    margin-bottom: 5px;
+}
+
+.loginForm button {
+    width: 102%;
+    font-weight: 700;
+    background-color: green;
+    color: #ffffff
+}
+
+.captcha {
+    margin-top: 10px;
+    width: 100%;
+}
+
+.captcha img {
+    width: 100%;
 }
 
 .checkBox {
-    display: flex
+    display: flex;
+}
+
+.checkBox input {
+    width: auto
 }
 
 .errorMessage {
     margin: 0;
     margin-bottom: 5px;
-    color: rgb(209, 53, 53)
+    color: rgb(226, 25, 25)
 }

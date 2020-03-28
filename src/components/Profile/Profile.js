@@ -1,15 +1,13 @@
 import React from 'react'
-import {  } from './Profile.module.css'
-import MyPostsContainer from './MyPosts/MyPostsContainer'
-import ProfileInfo from './ProfileInfo/ProfileInfo'
+import MyPostsContainer from './MyPosts/PostsContainer'
+import ProfileInfoContainer from './ProfileInfo/ProfileInfoContainer'
 
-const Profile = ({ profileData }) => {
+const Profile = ({ isMyProfile, editMode }) => {
     return (
         <div>
-            <ProfileInfo
-                profileData={profileData}
-            />
-            <MyPostsContainer />
+            <ProfileInfoContainer />
+            {/* {isMyProfile && !editMode && <hr/>} */}
+            {/* {isMyProfile && !editMode && <MyPostsContainer />} */}
         </div>
     )
 }

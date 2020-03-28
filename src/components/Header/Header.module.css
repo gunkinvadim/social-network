@@ -1,6 +1,6 @@
 .header {
     grid-area: h;
-    background-color: rgb(40, 111, 243);
+    background-color: rgb(58, 121, 240);
     position: relative
 }
 
@@ -28,6 +28,7 @@
 .logoutBtn {
     display: inline;
     position: absolute;
+    padding: 0;
     top: 20px;
     right: 50px;
     border: none;

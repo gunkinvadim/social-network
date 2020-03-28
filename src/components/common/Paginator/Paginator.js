@@ -1,30 +1,68 @@
-import React from 'react'
-import { paginatorBtn, selected } from './Paginator.module.css'
+import React, { useState } from 'react'
+import s from './Paginator.module.css'
 
-const Paginator = ({ pagesCount, currentPage, onPageChanged }) => {
+const Paginator = ({ totalItemsCount, pageSize, currentPage, onPageChanged,
+    portionSize = 3 }) => {
+
+
+    let pagesCount = Math.ceil(totalItemsCount / pageSize)
+
     let pages = []
     for (let i = 1; i <= pagesCount; i++) {
         pages.push(i)
     }
 
+    const portionCount = Math.ceil(pagesCount / portionSize)
+    const currentPortionnumber = Math.ceil(currentPage / portionSize)
+    const [ portionNumber, setPortionNumber ] = useState(currentPortionnumber)
+    const firstPortionPageNumber = (portionNumber - 1) * portionSize + 1
+    const lastPortionPageNumber = portionNumber * portionSize
+
     return (
         <div>
-            {pages.map((p, i, arr) => {
-                if (((p <= currentPage + 3) && (p >= currentPage - 3))
-                    || (p === 1) || (p === arr.length)) {
-                    return (
-                        <button
-                            key={p}
-                            className={paginatorBtn + ' ' + (p === currentPage && selected)}
-                            onClick={p !== currentPage && (() => onPageChanged(p))}
-                        >{
-                            (((p === currentPage - 3) && (p !== 1))
-                            || ((p === currentPage + 3) && (p !== arr.length))) ? '...' : p
-                        }
-                        </button>
-                    )
-                }
-            })}
+            {portionNumber > 1 && <button
+                className={s.paginatorBtn}
+                onClick={() => {
+                    setPortionNumber(1)
+                    onPageChanged(1)
+                }}
+            >First</button>}
+
+            {portionNumber > 1 && <button
+                className={s.paginatorBtn}
+                onClick={() => {
+                    setPortionNumber(portionNumber - 1)
+                    onPageChanged(lastPortionPageNumber - portionSize)
+                }}
+            >...</button>}
+
+            {pages
+                .filter(p => p >= firstPortionPageNumber && p <= lastPortionPageNumber)
+                .map(p => (
+                    <button
+                        key={p}
+                        className={s.paginatorBtn + ' ' + (p === currentPage && s.selected)}
+                        onClick={p !== currentPage ? (() => onPageChanged(p)) : null}
+                    >
+                        {p}
+                    </button>
+                ))}
+
+            {portionNumber < portionCount && <button 
+                className={s.paginatorBtn}
+                onClick={() => {
+                    setPortionNumber(portionNumber + 1)
+                    onPageChanged(firstPortionPageNumber + portionSize)
+                }}
+            >...</button>}
+
+            {portionNumber < portionCount && <button 
+                className={s.paginatorBtn}
+                onClick={() => {
+                    setPortionNumber(portionCount)
+                    onPageChanged(pages.length)
+                }}
+            >Last</button>}
         </div>
     )
 }

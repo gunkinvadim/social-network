@@ -1,0 +1,10 @@
+.photoBlock {
+    margin-top: 20px;
+    display: block;
+    width: 300px;
+    box-sizing: content-box;
+}
+
+.profileImg {
+    width: 100%
+}

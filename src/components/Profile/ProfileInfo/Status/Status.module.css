@@ -1,3 +1,15 @@
-.emptyStatus {
+.statusContainer span {
     color: rgb(71, 71, 71)
+}
+
+.statusContainer button {
+    margin-left: 5px;
+    padding: 3px;
+    background-color: green;
+    color: #ffffff
+}
+
+.statusContainer input {
+    border-radius: 5px;
+    padding: 3px
 }

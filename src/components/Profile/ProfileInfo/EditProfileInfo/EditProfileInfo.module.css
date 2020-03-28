@@ -1,0 +1,91 @@
+.editProfileForm div {
+    margin-top: 20px
+}
+
+.editProfileForm input,
+.editProfileForm textarea {
+    width: 300px
+}
+
+.profileImgContainer {
+    display: block;
+    width: 300px
+}
+
+.profileImg {
+    width: 100%
+}
+
+.checkBox {
+    display: flex;
+    align-items: center
+}
+
+.checkBox input {
+    display: block;
+    width: auto;
+    margin-top: -15px
+}
+
+.contactsBlock {
+    max-width: 700px
+}
+
+.contactsBlock li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 13px 10px 10px;
+    margin-top: 10px;
+    border: 1px solid grey
+}
+
+.contactsBlock li div {
+    display: flex;
+}
+
+.contactsBlock li b {
+    margin-top: -3px
+}
+
+
+.contactsBlock li input {
+    display: block;
+    margin-top: -23px;
+    height: 16px;
+    max-width: 300px;
+}
+
+.buttonBlock {
+    max-width: 700px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.buttonBlock button {
+    font-weight: 700;
+    color: #ffffff
+}
+
+.errorMessages {
+    color: rgb(226, 25, 25)
+}
+.errorMessages p {
+    margin: 0;
+    padding: 0;
+}
+
+.cancelBtn {
+    background-color: red
+}
+
+.saveBtn {
+    background-color: green
+}
+
+
+@media (max-width: 575px) {
+    .contactsBlock li input {
+        width: 200px
+    }
+}

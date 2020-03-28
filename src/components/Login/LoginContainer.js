@@ -3,6 +3,7 @@ import Login from './Login'
 import { connect } from 'react-redux'
 import { sendLoginData } from '../../redux/auth-reducer'
 import { Redirect } from 'react-router'
+import { getIsAuth, getCaptcha } from '../../redux/selectors'
 
 class LoginContainer extends React.Component {
 
@@ -12,17 +13,19 @@ class LoginContainer extends React.Component {
     }
 
     render() {
-        const { isAuth, hasErrors, messages } = this.props
+        const { isAuth, captcha } = this.props
 
         return isAuth ? <Redirect to='/profile'/>
             :   <Login
                     onFormSubmit={this.onFormSubmit}
+                    captcha={captcha}
                 />
     }
 }
 
 const mapStateToProps = (state) => ({
-    isAuth: state.auth.isAuth,
+    isAuth: getIsAuth(state),
+    captcha: getCaptcha(state)
 })
 
 const mapDispatchToProps = {

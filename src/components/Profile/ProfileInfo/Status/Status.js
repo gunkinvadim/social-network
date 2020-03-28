@@ -1,5 +1,5 @@
 import React from 'react'
-import { emptyStatus } from './Status.module.css'
+import s from './Status.module.css'
 
 const Status = ({
     isMyProfile, status, isStatusLoading,
@@ -11,16 +11,17 @@ const Status = ({
 
     if (!isMyProfile) {
         return (
-            <div>{isStatusLoading ? 'loading...' : status}</div>
+            <div className={s.statusContainer}>
+                <span>{isStatusLoading ? 'loading...' : status}</span>
+            </div>
         )
     }
 
     return (
-        <div>
+        <div className={s.statusContainer}>
             {!editMode
                 ?   <span
                         onClick={() => toggleEditMode(true)}
-                        className={statusText ? null : emptyStatus}
                     >
                         {isStatusLoading ? 'loading...'
                             : statusText ? statusText : 'no status'}

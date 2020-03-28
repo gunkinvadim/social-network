@@ -19,7 +19,6 @@
     display: block;
     margin-top: 10px;
     padding: 3px;
-    border: none;
     border-radius: 3px;
 }
 
@@ -27,7 +26,6 @@
     display: block;
     margin-top: 10px;
     padding: 3px;
-    border: none;
     border-radius: 3px;
     background-color: rgb(238, 46, 46);
     color: white;
