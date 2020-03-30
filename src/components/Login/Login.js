@@ -5,7 +5,7 @@ const Login = ({ onFormSubmit, hasErrors, messages, captcha }) => {
 
     return (
         <div>
-            <h1>Login</h1>
+            <h3>Login</h3>
             <LoginForm
                 onSubmit={onFormSubmit}
                 hasErrors={hasErrors}

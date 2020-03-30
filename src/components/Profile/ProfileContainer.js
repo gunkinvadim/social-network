@@ -12,10 +12,14 @@ import { getIsProfileLoading,
 class ProfileContainer extends React.Component {
 
     updateProfilePage() {
-        const { match, authId, requestProfile } = this.props
+        const { match, isAuth, authId, requestProfile } = this.props
         const userId = match.params.userId
 
-        userId && userId != authId ? requestProfile(userId, false) : requestProfile(authId, true)
+        userId && userId != authId
+            ? requestProfile(userId, false)
+            : isAuth && requestProfile(authId, true)
+
+        
     }
 
     componentDidMount() {
