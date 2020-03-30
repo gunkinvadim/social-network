@@ -1,14 +1,61 @@
 .sidebar {
     grid-area: n;
     background-color: rgb(58, 121, 240);
-    padding: 20px;
 }
 
-.item a {
+.sidebarContent {
+    width: 100%;
+    background-color: rgb(58, 121, 240);
+}
+
+.closeBtn {
+    display: none
+}
+
+.sidebarMenu li a {
+    display: block;
+    padding: 10px 0 10px 15px;
     color: #ffffff;
     text-decoration: none;
 }
 
-.item .active {
-    color: gold
+.sidebarMenu li a::last-child {
+    border-bottom: 0
+}
+
+.sidebarMenu li .active {
+    background-color: rgb(134, 170, 236);;
+}
+
+
+@media (max-width: 575px) {
+
+    .sidebar {
+        display: none;
+        grid-area: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0.404)
+    }
+
+    .sidebar.active {
+        display: block
+    }
+
+    .sidebarContent {
+        width: 50%;
+        height: 100%
+    }
+
+    .closeBtn {
+        display: block;
+        border: none;
+        margin-left: 10px;
+        padding: 5px;
+        font-size: 30px;
+        color: #ffffff
+    }
 }

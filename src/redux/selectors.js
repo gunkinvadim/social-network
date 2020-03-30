@@ -18,7 +18,9 @@ export const getDialogs = (state) => state.messagesPage.dialogsData
 export const getMessages = (state) => state.messagesPage.messagesData
 
 export const getIsAppInit = (state) => state.app.isInit
+export const getHasError = (state) => state.app.hasError
 
+export const getIsSidebarShown = (state) => state.sidebar.isSidebarShown
 export const getFriendsList = (state) => state.sidebar.friends
 
 export const getUsers = (state) => state.usersPage.users

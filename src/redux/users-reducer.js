@@ -1,4 +1,5 @@
 import { usersAPI } from '../api/api'
+import { toggleHasError } from './app-reducer'
 
 const FOLLOW_SUCCESS = 'users/FOLLOW_SUCCESS'
 const TOGGLE_FOLLOW_DISABLED = 'users/TOGGLE_FOLLOW_DISABLED'
@@ -83,10 +84,15 @@ export const requestUsers = (pageNumber, pageSize) => async (dispatch) => {
 export const requireFollow = (id, willFollow) => async (dispatch) => {
     dispatch(toggleFollowDisabled(id, true))
 
-    const { resultCode }
-        = await (willFollow
+    try {
+        const { resultCode } = await (willFollow
             ? usersAPI.followUser(id)
             : usersAPI.unfollowUser(id))
     if (resultCode === 0) dispatch(followSuccess(id, willFollow))
     dispatch(toggleFollowDisabled(id, false))
+    } catch(err) {
+        console.error(err)
+        dispatch(toggleHasError(true))
+        dispatch(toggleFollowDisabled(id, false))
+    }
 }

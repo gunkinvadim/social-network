@@ -1,14 +1,13 @@
 .header {
     grid-area: h;
     background-color: rgb(58, 121, 240);
-    position: relative
 }
 
 .header img {
     height: 100%;
 }
 
-.loginBlock {
+.greetingBlock {
     margin-left: auto;
     margin-right: auto;
     margin-top: 20px;
@@ -16,26 +15,51 @@
     text-align: center;
 }
 
-.loginBlock p {
+.greetingBlock p {
     color: #ffffff
 }
 
-.loginBlock a {
+.greetingBlock p a {
     color: gold;
     text-decoration: none;
 }
 
-.logoutBtn {
+
+
+.headerBtn {
     display: inline;
     position: absolute;
-    padding: 0;
-    top: 20px;
-    right: 50px;
     border: none;
+    padding: 5px;
+    top: 18px;
     background-color: transparent;
-    color: gold;
+    color: #ffffff;
+    font-weight: 700
 }
 
-.logoutBtn:focus {
+.headerBtn:focus {
     outline: none
+}
+
+.loginBtn {
+    right: 20px;
+    background-color: green;
+    color: #ffffff
+}
+
+.logoutBtn {
+    right: 20px;
+    background-color: red
+}
+
+.menuBtn {
+    display: none;
+    left: 20px;
+    background-color: green
+}
+
+@media (max-width: 575px) {
+    .menuBtn {
+        display: inline
+    }
 }

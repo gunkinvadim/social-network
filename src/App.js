@@ -5,10 +5,11 @@ import { compose } from 'redux'
 import './App.css'
 import HeaderContainer from './components/Header/HeaderContainer'
 import SidebarContainer from './components/Sidebar/SidebarContainer'
-import { initApp } from './redux/app-reducer'
+import { initApp, toggleHasError } from './redux/app-reducer'
 import Preloader from './components/common/Preloader/Preloader'
-import { getIsAppInit, getIsAuth } from './redux/selectors'
+import { getIsAppInit, getHasError, getIsAuth } from './redux/selectors'
 import withSuspense from './components/HOC/withSuspense'
+import ErrorPopupContainer from './components/modals/ErrorPopup/ErrorPopupContainer'
 
 const ProfileContainer = lazy(() => import('./components/Profile/ProfileContainer'))
 const MessagesContainer = lazy(() => import('./components/Messages/MessagesContainer'))
@@ -21,14 +22,22 @@ const LoginContainer = lazy(() => import('./components/Login/LoginContainer'))
 
 class App extends React.Component {
 
-  componentDidMount() {
-    const { initApp } = this.props
+  catchAllUnhandleErrors = (promiseRejectionEvent) => {
+    this.props.toggleHasError(true)
+    console.error(promiseRejectionEvent)
+  }
 
-    initApp()
+  componentDidMount() {
+    this.props.initApp()
+    window.addEventListener('unhandledrejection', this.catchAllUnhandleErrors)
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('unhandledrejection', this.catchAllUnhandleErrors)
   }
 
   render() {
-    const { isInit } = this.props
+    const {isInit, hasError} = this.props
 
     if (!isInit) {
       return (
@@ -40,6 +49,7 @@ class App extends React.Component {
 
     return (
       <div className='app-wrapper'>
+        {hasError && <ErrorPopupContainer />}
         <HeaderContainer />
         <SidebarContainer />
         <div className='app-wrapper-content'>
@@ -61,7 +71,7 @@ class App extends React.Component {
             />
             <Route path='/login' render={withSuspense(LoginContainer)}
             />
-            <Redirect to='/news' />
+            <Redirect to='/profile' />
           </Switch>
         </div>
       </div>
@@ -71,11 +81,13 @@ class App extends React.Component {
 
 const mapStateToProps = (state) => ({
   isInit: getIsAppInit(state),
+  hasError: getHasError(state),
   isAuth: getIsAuth(state)
 })
 
 const mapDispatchToProps = {
-  initApp
+  initApp,
+  toggleHasError
 }
 
 export default compose(

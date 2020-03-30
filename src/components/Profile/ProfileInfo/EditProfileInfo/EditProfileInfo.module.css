@@ -53,11 +53,10 @@
     display: block;
     margin-top: -23px;
     height: 16px;
-    max-width: 300px;
+    width: 300px;
 }
 
 .buttonBlock {
-    max-width: 700px;
     display: flex;
     justify-content: space-between;
 }
@@ -87,5 +86,18 @@
 @media (max-width: 575px) {
     .contactsBlock li input {
         width: 200px
+    }
+}
+
+@media (max-width: 400px) {
+    .editProfileForm input,
+    .editProfileForm textarea {
+        width: 250px
+    }
+    .checkBox input {
+        width: auto
+    }
+    .contactsBlock li input {
+        width: 150px
     }
 }

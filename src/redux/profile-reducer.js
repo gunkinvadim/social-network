@@ -1,6 +1,7 @@
 import { profileAPI } from '../api/api'
 import { stopSubmit } from 'redux-form'
 import { getAuthData } from './selectors'
+import { toggleHasError } from './app-reducer'
 
 const ADD_POST = 'profile/ADD_POST'
 const DELETE_POST = 'profile/DELETE_POST'
@@ -19,7 +20,7 @@ const initialState = {
     isLoading: false,
     profileData: null,
     isStatusLoading: false,
-    status: '',
+    status: null,
     isMyProfile: false,
     editMode: false,
     isPhotoUpdating: false,
@@ -43,8 +44,7 @@ const profileReducer = (state = initialState, action) => {
                     text: action.text,
                     likes: 0,
                     liked: false
-                }],
-                newPostText: ''
+                }]
             }
         case DELETE_POST:
             return {
@@ -164,40 +164,64 @@ export const requestProfile = (id, isMyProfile) => async (dispatch) => {
     dispatch(toggleLoading(true))
     dispatch(toggleIsMyProfile(isMyProfile))
 
-    const data = await profileAPI.getProfile(id)
-    const statusData = await profileAPI.getStatus(id)
-    dispatch(setProfile(data))
-    dispatch(setStatus(statusData))
-    dispatch(toggleLoading(false))
+    try {
+        const data = await profileAPI.getProfile(id)
+        const statusData = await profileAPI.getStatus(id)
+        dispatch(setProfile(data))
+        dispatch(setStatus(statusData))
+        dispatch(toggleLoading(false))
+    } catch(err) {
+        console.error(err)
+        dispatch(toggleHasError(true))
+        dispatch(toggleLoading(false))
+    }
 }
 
 export const updateStatus = (status) => async (dispatch) => {
     dispatch(toggleStatusLoading(true))
 
-    const { resultCode } = await profileAPI.updateStatus(status)
-    if (resultCode === 0) dispatch(setStatus(status))
-    dispatch(toggleStatusLoading(false))
+    try {
+        const { resultCode } = await profileAPI.updateStatus(status)
+        if (resultCode === 0) dispatch(setStatus(status))
+        dispatch(toggleStatusLoading(false))
+    } catch(err) {
+        console.error(err)
+        dispatch(toggleHasError(true))
+        dispatch(toggleStatusLoading(false))
+    }
 }
 
 export const updateProfilePhoto = (file) => async (dispatch) => {
     dispatch(toggleIsPhotoUpdating(true))
 
-    const { resultCode, data: {photos} } = await profileAPI.updatePhoto(file)
+    try {
+        const { resultCode, data: {photos}, messages } = await profileAPI.updatePhoto(file)
 
-    if (resultCode === 0) {
-        dispatch(updatePhotoSuccess(photos))
+        if (resultCode === 0) {
+            dispatch(updatePhotoSuccess(photos))
+            dispatch(toggleIsPhotoUpdating(false))
+        } else {
+            console.log(messages)
+        }
+    } catch(err) {
+        console.error(err)
+        dispatch(toggleHasError(true))
         dispatch(toggleIsPhotoUpdating(false))
     }
 }
 
 export const updateProfileData = (newProfileData) => async (dispatch, getState) => {
-
-    const { resultCode, messages } = await profileAPI.updateProfileData(newProfileData)
-    if (resultCode === 0) {
-        dispatch(requestProfile(getAuthData(getState()).id, true))
-        dispatch(toggleEditMode(false))
-    } else {
-        dispatch(stopSubmit('editProfile', {_error: messages}))
+    try {
+        const { resultCode, messages } = await profileAPI.updateProfileData(newProfileData)
+        if (resultCode === 0) {
+            dispatch(requestProfile(getAuthData(getState()).id, true))
+            dispatch(toggleEditMode(false))
+        } else {
+            dispatch(stopSubmit('editProfile', {_error: messages}))
+        }
+    } catch(err) {
+        console.error(err)
+        dispatch(toggleHasError(true))
     }
 }
 

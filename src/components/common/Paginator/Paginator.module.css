@@ -1,14 +1,27 @@
+.paginator {
+    display: flex;
+    justify-content: center
+}
+
 .paginatorBtn {
-    margin-left: 10px;
+    margin-left: 5px;
     border: 2px solid gray;
     border-radius: 5px;
     background-color: transparent;
-    padding: 2px;
+    padding: 4px;
     font-size: 16px;
     color: #000000;
-    cursor: pointer
+    cursor: pointer;
+    outline: none
+}
+
+.paginatorBtn:first-child {
+    margin-left: 0
 }
 
 .paginatorBtn.selected {
-    font-weight: 900
+    border: none;
+    background-color: green;
+    color: #ffffff;
+    font-weight: 900;
 }

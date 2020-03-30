@@ -6,19 +6,19 @@
 
 .loginForm input {
     width: 100%;
-    margin-top: 5px;
-    margin-bottom: 5px;
+    margin-top: 13px;
 }
 
 .loginForm button {
     width: 102%;
+    margin-top: 13px;
     font-weight: 700;
     background-color: green;
     color: #ffffff
 }
 
 .captcha {
-    margin-top: 10px;
+    margin-top: 13px;
     width: 100%;
 }
 
@@ -34,8 +34,12 @@
     width: auto
 }
 
+.checkBox label {
+    margin-top: 11px;
+}
+
 .errorMessage {
-    margin: 0;
+    margin-top: 10px;
     margin-bottom: 5px;
     color: rgb(226, 25, 25)
 }

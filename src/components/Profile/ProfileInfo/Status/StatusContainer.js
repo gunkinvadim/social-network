@@ -1,59 +1,35 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Status from './Status'
 import { connect } from 'react-redux'
 import { updateStatus } from '../../../../redux/profile-reducer'
 import { getIsMyProfile, getProfileStatus,
     getIsStatusLoading } from '../../../../redux/selectors'
 
-class StatusContainer extends React.Component {
+const StatusContainer = ({ updateStatus, status, isMyProfile, isStatusLoading }) => {
 
-    state = {
-        editMode: false,
-        statusText: this.props.status
-    }
+    const [ editMode, setEditMode ] = useState(false)
 
-    componentDidUpdate(prevProps) {
-        if (this.props.status !== prevProps.status) {
-            this.setState({
-                statusText: this.props.status
-            })
-        }
-    }
-
-    toggleEditMode = (editMode) => {
-        this.setState({
-            editMode
-        })
-    }
-
-    changeStatusText = (statusText) => {
-        this.setState({
-            statusText
-        })
-    }
-
-    onUpdateStatus = () => {
-        const { updateStatus } = this.props
-
-        updateStatus(this.state.statusText)
-        this.toggleEditMode(false)
+    const toggleEditMode = (isEditMode) => {
+        setEditMode(isEditMode)
     }
 
 
-    render() {
-        const { status, isMyProfile, isStatusLoading } = this.props
-        const { editMode, statusText } = this.state
+    const onSubmitForm = (formData) => {
+        updateStatus(formData.status)
+        toggleEditMode(false)
+    }
 
-        return <Status
+
+    return (
+        <Status
             isMyProfile={isMyProfile}
             status={status}
             isStatusLoading={isStatusLoading}
             editMode={editMode}
-            statusText={statusText}
-            toggleEditMode={this.toggleEditMode}
-            changeStatusText={this.changeStatusText}
-            onUpdateStatus={this.onUpdateStatus} />
-    }
+            toggleEditMode={toggleEditMode}
+            onSubmitForm={onSubmitForm}
+        />
+    )
 }
 
 const mapStateToProps = (state) => ({

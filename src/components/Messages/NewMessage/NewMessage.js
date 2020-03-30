@@ -1,5 +1,5 @@
 import React from 'react'
-import { messageForm, textarea, button } from './NewMessage.module.css'
+import s from './NewMessage.module.css'
 import { Field } from 'redux-form'
 import { maxLength, required } from '../../../utils/validators'
 import { Textarea } from '../../common/FormsControls/FormsControls'
@@ -11,17 +11,17 @@ const NewMessage = ({ handleSubmit }) => {
     return (
         <form 
             onSubmit={handleSubmit}
-            className={messageForm}
+            className={s.messageForm}
         >
             <Field
                 component={Textarea}
                 name='text'
                 placeholder='Enter your message'
                 validate={[maxLength50]}
-                className={textarea}
+                className={s.textarea}
             />
             <button
-                className={button}
+                className={s.button}
                 type='submit'
             >Send message</button>
         </form>

@@ -7,7 +7,6 @@ import Paginator from '../common/Paginator/Paginator'
 const Users = ({ users, totalUsersCount, pageSize, currentPage,
     onPageChanged, isLoading }) => {
 
-
     return (
         <div>
             <Paginator 
@@ -16,17 +15,14 @@ const Users = ({ users, totalUsersCount, pageSize, currentPage,
                 pageSize={pageSize}
                 onPageChanged={onPageChanged}
             />
-            {
-                isLoading || !users ? 
-                    <Preloader />
-                :
-                    <ul className={s.usersList}>
-                        {users.map((u) => <UserContainer
-                                key={u.id}
-                                userData={u}
-                        />)}
-                    </ul>
-            }
+            {isLoading || !users
+            ? <Preloader />
+            : <ul className={s.usersList}>
+                {users.map((u) => <UserContainer
+                        key={u.id}
+                        userData={u}
+                />)}
+            </ul>}
         </div>
     )
 }

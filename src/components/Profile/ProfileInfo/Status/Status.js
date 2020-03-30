@@ -1,13 +1,11 @@
 import React from 'react'
 import s from './Status.module.css'
+import StatusForm from './StatusForm'
 
 const Status = ({
     isMyProfile, status, isStatusLoading,
-    editMode, statusText,
-    toggleEditMode, changeStatusText, onUpdateStatus
+    editMode, toggleEditMode, onSubmitForm
 }) => {
-
-
 
     if (!isMyProfile) {
         return (
@@ -24,21 +22,13 @@ const Status = ({
                         onClick={() => toggleEditMode(true)}
                     >
                         {isStatusLoading ? 'loading...'
-                            : statusText ? statusText : 'no status'}
+                            : status ? status : 'no status'}
                     </span>
                 :   
-                    <form
-                        onSubmit={onUpdateStatus}
-                    >
-                        <input
-                            value={statusText}
-                            onChange={(e) => changeStatusText(e.currentTarget.value)}
-                            autoFocus
-                        />
-                        <button
-                            type='submit'
-                        >Save</button>
-                    </form>
+                    <StatusForm
+                        onSubmit={onSubmitForm}
+                        initialValues={{ status }}
+                    />
             } 
         </div>
     )

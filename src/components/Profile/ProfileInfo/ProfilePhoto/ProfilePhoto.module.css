@@ -8,3 +8,9 @@
 .profileImg {
     width: 100%
 }
+
+@media (max-width: 575px) {
+    .photoBlock {
+        width: 250px
+    }
+}

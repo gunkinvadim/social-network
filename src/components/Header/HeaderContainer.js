@@ -1,20 +1,22 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { toggleShowSidebar } from '../../redux/sidebar-reducer'
 import { logout } from '../../redux/auth-reducer'
 import Header from './Header'
 
-class HeaderContainer extends React.Component {
+const HeaderContainer = ({ isAuth, isLoading, authData, toggleShowSidebar, logout }) => {
 
-    render() {
-        const { isAuth, isLoading, authData, logout } = this.props
-
-        return <Header
-            isAuth={isAuth}
-            isLoading={isLoading}
-            login={authData.login}
-            logout={logout}
-        />
+    const onMenuBtnClick = () => {
+        toggleShowSidebar(true)
     }
+
+    return <Header
+        isAuth={isAuth}
+        isLoading={isLoading}
+        login={authData.login}
+        logout={logout}
+        onMenuBtnClick={onMenuBtnClick}
+    />
 }
 
 const mapStateToProps = (state) => {
@@ -24,6 +26,7 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = {
+    toggleShowSidebar,
     logout
 }
 

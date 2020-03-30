@@ -1,7 +1,7 @@
 import React from 'react'
 import s from './ProfileInfo.module.css'
 import Preloader from '../../common/Preloader/Preloader'
-import StatusContainerWithHooks from './Status/StatusContainerWithHooks'
+import StatusContainer from './Status/StatusContainer'
 import ProfilePhotoContainer from './ProfilePhoto/ProfilePhotoContainer'
 import ProfileHeaderContainer from './ProfileHeader/ProfileHeaderContainer'
 import ProfileDataContainer from './ProfileData/ProfileDataContainer'
@@ -18,7 +18,7 @@ const ProfileInfo = ({ editMode, profileData }) => {
     return (
         <div className={s.profileInfo}>
             {!editMode && <ProfileHeaderContainer />}
-            {!editMode && <StatusContainerWithHooks />}
+            {!editMode && <StatusContainer />}
             <ProfilePhotoContainer />
             <hr className={s.line}/>
             {editMode

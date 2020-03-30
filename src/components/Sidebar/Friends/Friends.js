@@ -7,7 +7,9 @@ const Friends = ({ friends }) => {
         <div>
             <h3 className={s.title}>Friends</h3>
             <ul>
-                {friends.map(({ id, name }) => <li key={id}><a className={s.item}>{name}</a></li>)}
+                {friends.map(({ id, name }) => <li key={id}>
+                    <a className={s.item}>{name}</a>
+                </li>)}
             </ul>
         </div>
     )

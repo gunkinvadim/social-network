@@ -19,7 +19,7 @@ const Paginator = ({ totalItemsCount, pageSize, currentPage, onPageChanged,
     const lastPortionPageNumber = portionNumber * portionSize
 
     return (
-        <div>
+        <div className={s.paginator}>
             {portionNumber > 1 && <button
                 className={s.paginatorBtn}
                 onClick={() => {
@@ -32,7 +32,8 @@ const Paginator = ({ totalItemsCount, pageSize, currentPage, onPageChanged,
                 className={s.paginatorBtn}
                 onClick={() => {
                     setPortionNumber(portionNumber - 1)
-                    onPageChanged(lastPortionPageNumber - portionSize)
+                    onPageChanged(Math.max(1, (lastPortionPageNumber
+                        - (portionSize + Math.floor(portionSize / 2)))))
                 }}
             >...</button>}
 
@@ -52,7 +53,9 @@ const Paginator = ({ totalItemsCount, pageSize, currentPage, onPageChanged,
                 className={s.paginatorBtn}
                 onClick={() => {
                     setPortionNumber(portionNumber + 1)
-                    onPageChanged(firstPortionPageNumber + portionSize)
+                    onPageChanged(Math.min(pages.length + 1,
+                        (firstPortionPageNumber +
+                            (portionSize + Math.floor(portionSize / 2)))))
                 }}
             >...</button>}
 
