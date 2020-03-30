@@ -1,0 +1,2 @@
+(this["webpackJsonpreact-1"]=this["webpackJsonpreact-1"]||[]).push([[8],{241:function(t,n,e){"use strict";var u=e(0),c=e.n(u),r=e(23),a=e(13);n.a=function(t){return Object(a.b)((function(t){return{isAuth:t.auth.isAuth}}))((function(n){return n.isAuth?c.a.createElement(t,n):c.a.createElement(r.a,{to:"/login"})}))}},311:function(t,n,e){},319:function(t,n,e){"use strict";e.r(n);var u=e(0),c=e.n(u),r=(e(311),function(){return c.a.createElement("div",null,"Settings")}),a=e(241);n.default=Object(a.a)(r)}}]);
+//# sourceMappingURL=8.93b7c0d2.chunk.js.map
