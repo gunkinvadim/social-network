@@ -1,10 +1,19 @@
 import profileReducer, { addPost, deletePost, likePost } from './profile-reducer'
+import { InitialStateType } from './profile-reducer'
 
-const state = {
+
+const state: InitialStateType = {
+    isLoading: false,
+    profileData: null,
+    isStatusLoading: false,
+    status: null,
+    isMyProfile: false,
+    isEditMode: false,
+    isPhotoUpdating: false,
     postsData: [
-        { id: 1, text: `Hi, how are you?`, likes: 0, liked: false },
-        { id: 2, text: `It's my first post!`, likes: 0, liked: false },
-        { id: 3, text: `Fuck You!`, likes: 0, liked: false }
+        { id: 1, text: `Hi, how are you?`, likes: 0, isLiked: false },
+        { id: 2, text: `It's my first post!`, likes: 0, isLiked: false },
+        { id: 3, text: `Fuck You!`, likes: 0, isLiked: false }
     ]
 }
 
@@ -35,5 +44,5 @@ test('post should be liked', () => {
 
     const newState = profileReducer(state, action)
 
-    expect(newState.postsData[1].liked).toBe(true)
+    expect(newState.postsData[1].isLiked).toBe(true)
 })

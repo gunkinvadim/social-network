@@ -1,7 +1,7 @@
 import React from 'react'
 import ProfileInfo from './ProfileInfo'
 import { connect } from 'react-redux'
-import { getProfileData, getProfileEditMode } from '../../../redux/selectors'
+import { getProfileData, getProfileIsEditMode } from '../../../redux/selectors'
 
 
 const ProfileInfoContainer = ({ profileData, editMode }) => {
@@ -14,7 +14,7 @@ const ProfileInfoContainer = ({ profileData, editMode }) => {
 
 const mapStateToProps = (state) => ({
     profileData: getProfileData(state),
-    editMode: getProfileEditMode(state)
+    editMode: getProfileIsEditMode(state)
 })
 
 

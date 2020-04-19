@@ -1,20 +1,29 @@
 import React from 'react'
 import Users from './Users'
 import { connect } from 'react-redux'
-import { setCurrentPage, requestUsers } from './../../redux/users-reducer'
+import { setCurrentPage, requestUsers,
+    UserDataType, SetCurrentPageType } from '../../redux/users-reducer'
 import { getUsers, getTotalUsersCount,
     getPageSize, getCurrentPage, getIsUsersLoading } from '../../redux/selectors'
 
+type PropsType = {
+    users: Array<UserDataType>
+    currentPage: number
+    pageSize: number
+    requestUsers: (pageNumber: number, pageSize: number) => Function
+    setCurrentPage: (currentPage: number) => SetCurrentPageType
+    totalUsersCount: number
+    isLoading: boolean
+}
 
-class UsersContainer extends React.Component {
+class UsersContainer extends React.Component<PropsType> {
 
     componentDidMount() {
         const { users, currentPage, pageSize, requestUsers } = this.props
-
-        if (!users) requestUsers(currentPage, pageSize)
+        if (!users[0]) requestUsers(currentPage, pageSize)
     }
 
-    onPageChanged = (pageNumber) => {
+    onPageChanged = (pageNumber: number) => {
         const { pageSize, setCurrentPage, requestUsers } = this.props
 
         setCurrentPage(pageNumber)
@@ -40,7 +49,7 @@ class UsersContainer extends React.Component {
 }
 
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: object) => ({
     users: getUsers(state),
     totalUsersCount: getTotalUsersCount(state),
     pageSize: getPageSize(state),

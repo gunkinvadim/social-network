@@ -3,8 +3,18 @@ import s from './Users.module.css'
 import UserContainer from './User/UserContainer'
 import Preloader from '../common/Preloader/Preloader'
 import Paginator from '../common/Paginator/Paginator'
+import { UserDataType } from '../../redux/users-reducer'
 
-const Users = ({ users, totalUsersCount, pageSize, currentPage,
+type PropsType = {
+    users: Array<UserDataType>
+    totalUsersCount: number
+    pageSize: number
+    currentPage: number
+    onPageChanged: (pageNumber: number) => void
+    isLoading: boolean
+}
+
+const Users: React.FC<PropsType> = ({ users, totalUsersCount, pageSize, currentPage,
     onPageChanged, isLoading }) => {
 
     return (

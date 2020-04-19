@@ -2,11 +2,19 @@ import React from 'react'
 import { NavLink } from 'react-router-dom'
 import s from './User.module.css'
 import defaultAvatar from '../../../assets/images/default_avatar.png'
+import { UserDataType } from '../../../redux/users-reducer'
 
+type PropsType = {
+    userData: UserDataType
+    onFollow: (willFollow: boolean) => void
+    isAuth: boolean
+}
 
-const User = ({ isAuth,
-    userData: {name, id, photos, status, followed, isFollowDisabled },
-    onFollow }) => {
+const User: React.FC<PropsType> = ({
+    userData: { name, id, photos, status, followed, isFollowDisabled },
+    onFollow,
+    isAuth
+}) => {
 
     let btn
     if (isFollowDisabled) {

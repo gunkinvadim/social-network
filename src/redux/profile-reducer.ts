@@ -11,28 +11,79 @@ const SET_STATUS = 'profile/SET_STATUS'
 const TOGGLE_STATUS_LOADING = 'profile/TOGGLE_STATUS_LOADING'
 const TOGGLE_IS_MY_PROFILE = 'profile/TOGGLE_IS_MY_PROFILE'
 const TOGGLE_PROFILE_LOADING = 'profile/TOGGLE_PROFILE_LOADING'
-const TOGGLE_EDIT_MODE = 'profile/TOGGLE_EDIT_MODE'
+const TOGGLE_IS_EDIT_MODE = 'profile/TOGGLE_EDIT_MODE'
 const TOGGLE_IS_PHOTO_UPDATING = 'profile/TOGGLE_IS_PHOTO_UPDATING'
 const UPDATE_PHOTO_SUCCESS = 'profile/UPDATE_PHOTO_SUCCESS'
 
 
-const initialState = {
+export type PhotosType = {
+    small: string | null
+    large: string | null
+}
+
+export type ContactsType = {
+    github: string | null
+    vk: string | null
+    facebook: string | null
+    instagram: string | null
+    twitter: string | null
+    website: string | null
+    youtube: string | null
+    mainLink: string | null
+}
+
+export type ProfileDataType = {
+    userId: number
+    lookingForAJob: boolean
+    lookingForAJobDescription: string
+    fullName: string
+    contacts: ContactsType
+    photos: PhotosType
+}
+
+export type PostType = {
+    id: number
+    text: string
+    likes: number
+    isLiked: boolean
+}
+
+export type InitialStateType = {
+    isLoading: boolean
+    profileData: ProfileDataType | null
+    isStatusLoading: boolean
+    status: string | null,
+    isMyProfile: boolean
+    isEditMode: boolean
+    isPhotoUpdating: boolean
+    postsData: Array<PostType>
+}
+
+const initialState: InitialStateType = {
     isLoading: false,
     profileData: null,
     isStatusLoading: false,
     status: null,
     isMyProfile: false,
-    editMode: false,
+    isEditMode: false,
     isPhotoUpdating: false,
     postsData: [
-        { id: 1, text: `Hi, how are you?`, likes: 0, liked: false },
-        { id: 2, text: `It's my first post!`, likes: 0, liked: false },
-        { id: 3, text: `111`, likes: 0, liked: false }
+        { id: 1, text: `Hi, how are you?`, likes: 0, isLiked: false },
+        { id: 2, text: `It's my first post!`, likes: 0, isLiked: false },
+        { id: 3, text: `111`, likes: 0, isLiked: false }
     ]
 }
 
 
-const profileReducer = (state = initialState, action) => {
+const profileReducer = (
+    state = initialState,
+    action: AddPostActionType | DeletePostActionType |
+        LikePostActionType | SetProfileActionType |
+        SetStatusActionType | ToggleStatusLoadingActionType |
+        ToggleIsMyProfileActionType | ToggleLoadingActionType |
+        ToggleEditModeActionType | ToggleIsPhotoUpdatingActionType |
+        updatePhotoSuccessActionType
+): InitialStateType => {
 
     switch (action.type) {
         case ADD_POST:
@@ -43,7 +94,7 @@ const profileReducer = (state = initialState, action) => {
                     id: data[data.length - 1].id + 1,
                     text: action.text,
                     likes: 0,
-                    liked: false
+                    isLiked: false
                 }]
             }
         case DELETE_POST:
@@ -58,8 +109,8 @@ const profileReducer = (state = initialState, action) => {
                     if (item.id === action.id) {
                         return {
                             ...item,
-                            likes: !item.liked ? item.likes + 1 : item.likes - 1,
-                            liked: !item.liked
+                            likes: !item.isLiked ? item.likes + 1 : item.likes - 1,
+                            liked: !item.isLiked
                         }
                     } else {
                         return {...item}
@@ -91,10 +142,10 @@ const profileReducer = (state = initialState, action) => {
                 ...state,
                 isLoading: action.isLoading
             }
-        case TOGGLE_EDIT_MODE:
+        case TOGGLE_IS_EDIT_MODE:
             return {
                 ...state,
-                editMode: action.editMode
+                isEditMode: action.isEditMode
             }
         case TOGGLE_IS_PHOTO_UPDATING:
             return {
@@ -104,7 +155,7 @@ const profileReducer = (state = initialState, action) => {
         case UPDATE_PHOTO_SUCCESS:
             return {
                 ...state,
-                profileData: {
+                profileData: state.profileData && {
                     ...state.profileData,
                     photos: {...action.photos}
                 }
@@ -113,46 +164,122 @@ const profileReducer = (state = initialState, action) => {
             return state
     }
 }
+export default profileReducer
 
 
 // ActionCreators
 
 
-export const addPost = (text) => ({
+export type AddPostActionType = {
+    type: typeof ADD_POST
+    text: string
+}
+export const addPost = (text: string): AddPostActionType => ({
     type: ADD_POST,
     text
 })
-export const deletePost = (id) => ({
+
+
+export type DeletePostActionType = {
+    type: typeof DELETE_POST
+    id: number
+}
+export const deletePost = (id: number): DeletePostActionType => ({
     type: DELETE_POST,
     id
 })
-export const likePost = (id) => ({
+
+
+export type LikePostActionType = {
+    type: typeof LIKE_POST
+    id: number
+}
+export const likePost = (id: number): LikePostActionType => ({
     type: LIKE_POST,
     id
 })
-export const setProfile = (profileData) => ({
+
+
+export type SetProfileActionType = {
+    type: typeof SET_PROFILE
+    profileData: ProfileDataType
+}
+export const setProfile = (profileData: ProfileDataType): SetProfileActionType => ({
     type: SET_PROFILE,
     profileData
 })
-export const setStatus = (status) => ({
+
+
+export type SetStatusActionType = {
+    type: typeof SET_STATUS
+    status: string
+}
+export const setStatus = (status: string): SetStatusActionType => ({
     type: SET_STATUS,
     status
 })
-export const toggleStatusLoading = (isStatusLoading) => ({
+
+
+export type ToggleStatusLoadingActionType = {
+    type: typeof TOGGLE_STATUS_LOADING
+    isStatusLoading: boolean
+}
+export const toggleStatusLoading = (isStatusLoading: boolean):
+    ToggleStatusLoadingActionType => ({
     type: TOGGLE_STATUS_LOADING,
     isStatusLoading
 })
-export const toggleIsMyProfile = (isMyProfile) => ({
+
+
+export type ToggleIsMyProfileActionType = {
+    type: typeof TOGGLE_IS_MY_PROFILE
+    isMyProfile: boolean
+}
+export const toggleIsMyProfile = (isMyProfile: boolean):
+    ToggleIsMyProfileActionType => ({
     type: TOGGLE_IS_MY_PROFILE,
     isMyProfile
 })
-export const toggleLoading = (isLoading) => ({ type: TOGGLE_PROFILE_LOADING, isLoading })
-export const toggleEditMode = (editMode) => ({ type: TOGGLE_EDIT_MODE, editMode })
-export const toggleIsPhotoUpdating = (isPhotoUpdating) => ({
+
+
+export type ToggleLoadingActionType = {
+    type: typeof TOGGLE_PROFILE_LOADING
+    isLoading: boolean
+}
+export const toggleLoading = (isLoading: boolean):
+    ToggleLoadingActionType => ({
+    type: TOGGLE_PROFILE_LOADING,
+    isLoading
+})
+
+
+export type ToggleEditModeActionType = {
+    type: typeof TOGGLE_IS_EDIT_MODE
+    isEditMode: boolean
+}
+export const toggleEditMode = (isEditMode: boolean): ToggleEditModeActionType => ({
+    type: TOGGLE_IS_EDIT_MODE,
+    isEditMode
+})
+
+
+export type ToggleIsPhotoUpdatingActionType = {
+    type: typeof TOGGLE_IS_PHOTO_UPDATING
+    isPhotoUpdating: boolean
+}
+export const toggleIsPhotoUpdating = (isPhotoUpdating: boolean):
+    ToggleIsPhotoUpdatingActionType => ({
     type: TOGGLE_IS_PHOTO_UPDATING,
     isPhotoUpdating
 })
-export const updatePhotoSuccess = (photos) => ({
+
+
+export type updatePhotoSuccessActionType = {
+    type: typeof UPDATE_PHOTO_SUCCESS
+    photos: PhotosType
+}
+export const updatePhotoSuccess = (photos: PhotosType):
+updatePhotoSuccessActionType => ({
     type: UPDATE_PHOTO_SUCCESS,
     photos
 })
@@ -160,7 +287,8 @@ export const updatePhotoSuccess = (photos) => ({
 
 // ThunkCreators
 
-export const requestProfile = (id, isMyProfile) => async (dispatch) => {
+export const requestProfile = (id: number | null, isMyProfile: boolean): Function =>
+    async (dispatch: Function) => {
     dispatch(toggleLoading(true))
     dispatch(toggleIsMyProfile(isMyProfile))
 
@@ -177,7 +305,8 @@ export const requestProfile = (id, isMyProfile) => async (dispatch) => {
     }
 }
 
-export const updateStatus = (status) => async (dispatch) => {
+export const updateStatus = (status: string): Function =>
+    async (dispatch: Function) => {
     dispatch(toggleStatusLoading(true))
 
     try {
@@ -191,7 +320,8 @@ export const updateStatus = (status) => async (dispatch) => {
     }
 }
 
-export const updateProfilePhoto = (file) => async (dispatch) => {
+export const updateProfilePhoto = (file: string): Function =>
+    async (dispatch: Function) => {
     dispatch(toggleIsPhotoUpdating(true))
 
     try {
@@ -210,7 +340,8 @@ export const updateProfilePhoto = (file) => async (dispatch) => {
     }
 }
 
-export const updateProfileData = (newProfileData) => async (dispatch, getState) => {
+export const updateProfileData = (newProfileData: ProfileDataType) =>
+    async (dispatch: Function, getState: Function) => {
     try {
         const { resultCode, messages } = await profileAPI.updateProfileData(newProfileData)
         if (resultCode === 0) {
@@ -224,5 +355,3 @@ export const updateProfileData = (newProfileData) => async (dispatch, getState) 
         dispatch(toggleHasError(true))
     }
 }
-
-export default profileReducer

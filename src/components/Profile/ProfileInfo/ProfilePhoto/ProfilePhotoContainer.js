@@ -1,6 +1,6 @@
 import React from 'react'
 import ProfilePhoto from './ProfilePhoto'
-import { getProfileEditMode, getProfileData,
+import { getProfileIsEditMode, getProfileData,
     getIsPhotoUpdating } from '../../../../redux/selectors'
 import { updateProfilePhoto } from '../../../../redux/profile-reducer'
 import { connect } from 'react-redux'
@@ -21,7 +21,7 @@ const ProfilePhotoContainer = ({ editMode, updateProfilePhoto, isPhotoUpdating, 
 }
 
 const mapStateToProps = (state) => ({
-    editMode: getProfileEditMode(state),
+    editMode: getProfileIsEditMode(state),
     isPhotoUpdating: getIsPhotoUpdating(state),
     photos: getProfileData(state).photos
 })

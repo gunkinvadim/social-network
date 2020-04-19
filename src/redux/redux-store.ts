@@ -19,10 +19,12 @@ const reducers = combineReducers({
     form: formReducer
 })
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
-const store = createStore(reducers, composeEnhancers(
+
+// const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
+const store = createStore(
+    reducers, 
     applyMiddleware(thunk)
-))
-window.store = store
+)
+// window.store = store
 
 export default store

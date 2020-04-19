@@ -5,7 +5,7 @@ import { Input } from '../common/FormsControls/FormsControls'
 import { required, maxLength, minLength, validEmail } from '../../utils/validators'
 
 
-const minLength8 = minLength(8)
+const minLength6 = minLength(6)
 const maxLength16 = maxLength(16)
 
 const LoginForm = ({ handleSubmit, error, captcha }) => {
@@ -27,7 +27,7 @@ const LoginForm = ({ handleSubmit, error, captcha }) => {
                 name='password'
                 type='password'
                 placeholder='Password'
-                validate={[required, minLength8, maxLength16]}
+                validate={[required, minLength6, maxLength16]}
             />
 
             {captcha && <div className={s.captcha}>

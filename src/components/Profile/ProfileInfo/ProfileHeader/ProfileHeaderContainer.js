@@ -1,6 +1,6 @@
 import React from 'react'
 import ProfileHeader from './ProfileHeader'
-import { getProfileData, getProfileEditMode,
+import { getProfileData, getProfileIsEditMode,
     getIsMyProfile } from '../../../../redux/selectors'
 import { toggleEditMode } from '../../../../redux/profile-reducer'
 import { connect } from 'react-redux'
@@ -19,7 +19,7 @@ const ProfileHeaderContainer = ({fullName, isMyProfile, toggleEditMode }) => {
 
 const mapStateToProps = (state) => ({
     fullName: getProfileData(state).fullName,
-    editMode: getProfileEditMode(state),
+    editMode: getProfileIsEditMode(state),
     isMyProfile: getIsMyProfile(state),
 })
 

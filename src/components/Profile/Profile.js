@@ -6,8 +6,8 @@ const Profile = ({ isMyProfile, editMode }) => {
     return (
         <div>
             <ProfileInfoContainer />
-            {/* {isMyProfile && !editMode && <hr/>} */}
-            {/* {isMyProfile && !editMode && <MyPostsContainer />} */}
+            {/* {isMyProfile && !editMode && <hr/>}
+            {isMyProfile && !editMode && <MyPostsContainer />} */}
         </div>
     )
 }

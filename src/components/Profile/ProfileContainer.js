@@ -7,7 +7,7 @@ import Preloader from '../common/Preloader/Preloader'
 import { compose } from 'redux'
 import { getIsProfileLoading,
     getIsAuth, getAuthData, getIsMyProfile,
-    getProfileEditMode } from '../../redux/selectors'
+    getProfileIsEditMode } from '../../redux/selectors'
 
 class ProfileContainer extends React.Component {
 
@@ -57,7 +57,7 @@ const mapStateToProps = (state) => {
         isAuth: getIsAuth(state),
         isMyProfile: getIsMyProfile(state),
         authId: getAuthData(state).id,
-        editMode: getProfileEditMode(state)
+        editMode: getProfileIsEditMode(state)
     }
 }
 
