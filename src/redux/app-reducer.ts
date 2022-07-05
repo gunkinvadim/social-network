@@ -1,6 +1,5 @@
 import { requestAuthData } from "./auth-reducer"
 
-
 const INIT_APP_SUCCESS = 'app/INIT_APP_SUCCESS'
 const TOGGLE_HAS_ERROR = 'app/TOGGLE_HAS_ERROR'
 
